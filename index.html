@@ -87,7 +87,16 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+
+                        
   <script>
+    // STEP 5
+    window.TrackJS && TrackJS.install({ 
+      token: "bb6a50469ae74128a21c1cf5e91f82b4"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +104,122 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      //STEP 3 + 4
+      class InvalidInputError extends Error {
+        constructor(message, cause) {
+          super(message);
+          this.cause = cause;
+          this.name = 'InvalidInputError';
+        }
+      }
+      try{
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err){
+        throw new InvalidInputError("Your input is incorrect");
+      } finally {
+        document.querySelector('#first-num').value = '';
+      }
+      
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    //STEP 2
+    errorBtns[0].addEventListener("click", (event) => {
+      console.log("This is console log");
+    });
+
+    errorBtns[1].addEventListener("click", (event) => {
+      console.error("This is console error");
+    });
+
+    errorBtns[2].addEventListener("click", (event) => {
+      console.count("This is console count");
+    });
+
+    errorBtns[3].addEventListener("click", (event) => {
+      console.warn("This is console warn");
+    });
+
+    errorBtns[4].addEventListener("click", (event) => {
+      let num = 2
+      console.assert(num == 8, "This is console assert");
+    });
+
+    errorBtns[5].addEventListener("click", (event) => {
+      console.clear("This is console clear");
+    });
+
+    errorBtns[6].addEventListener("click", (event) => {
+      console.dir(document.head);
+    });
+
+    errorBtns[7].addEventListener("click", (event) => {
+      console.dirxml(document);
+    });
+
+    errorBtns[8].addEventListener("click", (event) => {
+      console.group("This is start of console group");
+    });
+
+    errorBtns[9].addEventListener("click", (event) => {
+      console.groupEnd();
+    });
+
+    errorBtns[10].addEventListener("click", (event) => {
+      var student = [
+    {
+      first: 'Jenny',
+      last: 'Quach',
+    },
+    {
+      first: 'Jamie',
+      last: 'Quach',
+      birthday: '11112000',
+    },
+    {
+      first: 'Jennifer',
+      last: 'Nguyen',
+    }
+    ];
+      console.table(student);
+    });
+
+    errorBtns[11].addEventListener("click", (event) => {
+      console.time();
+    });
+
+    errorBtns[12].addEventListener("click", (event) => {
+      console.timeEnd();
+    });
+
+    errorBtns[13].addEventListener("click", (event) => {
+      const one = () => { three(); };
+      const two = () => { four(); };
+      const three = () => { two(); };
+      const four  = () => { console.trace(); };
+      one();
+    });
+
+    errorBtns[13].addEventListener("click", (event) => {
+      console.timeEnd();
+    });
+
+    errorBtns[14].addEventListener("click", (event) => {
+      throw new ReferenceError("This is a global error");
+    });
+
+    // STEP 5
+    window.onerror = function(){
+      console.log("This is window.onerror");
+    }
+
+    TrackJS.track('Testing TrackJS!');
+
   </script>
 </body>
 
